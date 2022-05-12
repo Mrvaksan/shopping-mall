@@ -6,11 +6,11 @@ import java.util.Scanner;
 public class Shop {
 
     static void endShopping(ShoppingCart shoppingCart){
-        //Sepeti yazdÄ±r
+        //Sepeti yazdır
         shoppingCart.printProductList();
-        //Ã–deme yap
-        System.out.println("TOPLAM Ã–DEME : "+shoppingCart.getTotalPayment());
-        //Sepeti boÅŸalt
+        //Ödeme yap
+        System.out.println("TOPLAM ÖDEME : "+shoppingCart.getTotalPayment());
+        //Sepeti boşalt
         shoppingCart.clear();
     }
 
@@ -20,23 +20,23 @@ public class Shop {
         int productCount=0;
         ShoppingCart shoppingCart=new ShoppingCart();
 
-        //Dosyadan Ã¼rÃ¼n listesini okuma
+        //Dosyadan ürün listesini okuma
         Scanner fileInput;
         try {
             fileInput = new Scanner(new File("products.txt"));
         } catch (FileNotFoundException e) {
-            //Dosya bulunamadÄ±ÄŸÄ±nda hata mesajÄ± yazdÄ±rÄ±p programdan Ã§Ä±kÄ±yoruz.
-            System.out.println("products.txt bulunamadÄ±.");
+            //Dosya bulunamadığında hata mesajı yazdırıp programdan çıkıyoruz.
+            System.out.println("products.txt bulunamadı.");
             return;
         }
 
-        // Delimiter olarak hem satÄ±r sonu hem de virgÃ¼l ayarladÄ±k
-        fileInput.useDelimiter(",|\\n");
+        // Delimiter olarak hem satır sonu hem de virgül ayarladık
+        fileInput.useDelimiter(",|\\n|\\r\\n");
 
-        //Ä°ngilizce diline gÃ¶re okuyacaÄŸÄ±z
+        //İngilizce diline göre okuyacağız
         fileInput.useLocale(Locale.ENGLISH);
 
-        //Dosyada Ã¼rÃ¼n bilgisi olduÄŸu sÃ¼rece devam eden bir dÃ¶ngÃ¼ yazdÄ±k
+        //Dosyada ürün bilgisi olduğu sürece devam eden bir döngü yazdık
         while (fileInput.hasNext()) {
             String name;
             double price;
@@ -44,12 +44,12 @@ public class Shop {
             name=fileInput.next();
             price=fileInput.nextDouble();
 
-            //dosyadan okuduÄŸum name ve price deÄŸerleri ile yeni bir Product oluÅŸturup 
+            //dosyadan okuduğum name ve price değerleri ile yeni bir Product oluşturup 
             //productList dizisine ekledik
             productList[productCount]=new Product(name, price);
             productCount++;
 
-            //maximum 64 product eklenebilir, Ã§Ã¼nkÃ¼ Product[] productList=new Product[64];
+            //maximum 64 product eklenebilir, çünkü Product[] productList=new Product[64];
             if(productCount==64){
                 break;
             }
@@ -58,23 +58,23 @@ public class Shop {
         int option;
 
         while (true) {
-            System.out.println("AKBABA MARKET");
-            System.out.println("1. Sepete ÃœrÃ¼n Ekle");
-            System.out.println("2. Ã–deme Yap");
-            System.out.println("3. Ã‡Ä±kÄ±ÅŸ");
+            System.out.println("CAN MARKET");
+            System.out.println("1. Sepete Ürün Ekle");
+            System.out.println("2. Ödeme Yap");
+            System.out.println("3. Çıkış");
 
             option=input.nextInt();
 
             switch (option) {
                 case 1:
-                    //ÃœrÃ¼n listesi yazÄ±rÄ±lacak
-                    //KullanÄ±cÄ± almak istediÄŸi Ã¼rÃ¼nÃ¼n numarasÄ±nÄ± girecek
-                    //SeÃ§ilen numara ile ilgili bir Ã¼rÃ¼n yoksa, Ã¼rÃ¼n listesi tekrar gÃ¶sterilecek
-                    // 0 seÃ§ilirse Ã¶nceki menÃ¼ye dÃ¶necek
-                    //Sepetteki Ã¼rÃ¼n sayÄ±sÄ± 20'ye ulaÅŸtÄ±ÄŸÄ±nda "Sepet doldu" uyarÄ±sÄ± verip, Ã¶deme sonucunu yazdÄ±racak
+                    //Ürün listesi yazırılacak
+                    //Kullanıcı almak istediği ürünün numarasını girecek
+                    //Seçilen numara ile ilgili bir ürün yoksa, ürün listesi tekrar gösterilecek
+                    // 0 seçilirse önceki menüye dönecek
+                    //Sepetteki ürün sayısı 20'ye ulaştığında "Sepet doldu" uyarısı verip, ödeme sonucunu yazdıracak
 
                     while (true) {
-                        System.out.println("ÃœrÃ¼n listesi");
+                        System.out.println("Ürün listesi");
                         
                         for (int i = 0; i < productCount; i++) {
                             System.out.print((i+1)+" ");
@@ -82,18 +82,18 @@ public class Shop {
                         }
                         System.out.println();
 
-                        System.out.println("Almak istediÄŸin Ã¼rÃ¼n numarasÄ±nÄ± girin: (0: Geri)");
+                        System.out.println("Almak istediğin ürün numarasını girin: (0: Geri)");
                         option=input.nextInt();
 
                         if(option==0){
                             break;
                         }else{
-                            //Ã¼rÃ¼nÃ¼ kontrol et
+                            //ürünü kontrol et
                             if(option<=productCount){
                                 //Sepete ekle
                                 shoppingCart.addProduct(productList[option-1]);
 
-                                //Sepeti yazdÄ±r
+                                //Sepeti yazdır
                                 shoppingCart.printProductList();
 
                                 if (shoppingCart.itemCount>=20) {
@@ -102,35 +102,35 @@ public class Shop {
                                 }
                                 break;
                             }else{
-                                System.out.println("ÃœrÃ¼n bulunamadÄ±.");
+                                System.out.println("Ürün bulunamadı.");
                             }
                         }  
                     }
 
                     break;
                 case 2:
-                    //SeÃ§ilen Ã¼rÃ¼nlerin listesi yazdÄ±rÄ±lacak
-                    //EÄŸer henÃ¼z Ã¼rÃ¼n seÃ§ilmemiÅŸse "Sepetinizde Ã¼rÃ¼n yok" uyarÄ±sÄ± yazdÄ±rÄ±lacak
-                    //Ã–deme yap seÃ§ildikten sonra sepet sÄ±fÄ±rlanÄ±r.
+                    //Seçilen ürünlerin listesi yazdırılacak
+                    //Eğer henüz ürün seçilmemişse "Sepetinizde ürün yok" uyarısı yazdırılacak
+                    //Ödeme yap seçildikten sonra sepet sıfırlanır.
 
                     if(shoppingCart.itemCount==0){
-                        System.out.println("Sepetinizde Ã¼rÃ¼n yok");
+                        System.out.println("Sepetinizde ürün yok");
                     }else{
                         endShopping(shoppingCart);
                     }
 
                     break;
                 case 3:
-                    // eÄŸer sepette Ã¼rÃ¼n yoksa Ã§Ä±kÄ±ÅŸ yapÄ±lacak, aksi halde menÃ¼ yeniden yazdÄ±rÄ±lacak
+                    // eğer sepette ürün yoksa çıkış yapılacak, aksi halde menü yeniden yazdırılacak
                     if(shoppingCart.itemCount==0){
                         return;
                     }else{
-                        System.out.println("Sepetinizde Ã¼rÃ¼nler var. Ã–deme yapÄ±n!");
+                        System.out.println("Sepetinizde ürünler var. Ödeme yapın!");
                     }                    
                     break;
             
                 default:
-                    System.out.println("YanlÄ±ÅŸ giriÅŸ!");
+                    System.out.println("Yanlış giriş!");
                     break;
             }   
         }
